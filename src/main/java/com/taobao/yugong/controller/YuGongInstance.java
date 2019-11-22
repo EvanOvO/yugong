@@ -195,27 +195,31 @@ public class YuGongInstance extends AbstractYuGongLifeCycle {
 							FileOutputStream fos = new FileOutputStream("src/main/resources/extractor.txt", true);
 
 							for (Record record : records) {
+								// 获取非主键字段
 								List<ColumnValue> columns = record.getColumns();
+								// 获取主键
 								List<ColumnValue> primaryKeys = record.getPrimaryKeys();
 								StringBuilder sb = new StringBuilder();
 								sb.append("--------------\r\n");
 								sb.append(record.getSchemaName() + "." + record.getTableName() + "\r\n");
 								sb.append("--------------\r\n");
-								// 主键
+								// 遍历主键
 								for (ColumnValue pk : primaryKeys) {
 									sb.append("\t" + pk.getColumn().getName() + "," + pk.getValue() + "   (PK)\r\n");
 								}
-								// 字段
+								// 遍历字段
 								for (ColumnValue col : columns) {
 									sb.append("\t" + col.getColumn().getName() + "," + col.getValue() + "\r\n");
 								}
 								if (record instanceof OracleIncrementRecord) {
 									OracleIncrementRecord oir = (OracleIncrementRecord) record;
+									// 记录操作类型
 									IncrementOpType op = oir.getOpType();
 									sb.append("\t" + op.name() + "操作\r\n\r\n" + "\t\t---" + sdf.format(new Date())
 											+ "\r\n\r\n");
 								}
 								fos.write(sb.toString().getBytes());
+								// 立即刷新
 								fos.flush();
 							}
 							fos.close();

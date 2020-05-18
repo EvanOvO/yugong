@@ -224,6 +224,7 @@ public class YuGongInstance extends AbstractYuGongLifeCycle {
 							}
 							fos.close();
 							//
+							
 							List<Record> ackRecords = records;// 保留ack引用
 							if (YuGongUtils.isEmpty(records)) {
 								status = extractor.status();
